@@ -1,0 +1,62 @@
+extends layout.pug
+
+block extralink
+  link(rel="stylesheet prefetch" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css")
+
+block extrascript
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js")
+  script(type='text/javascript').
+    let user = !{JSON.stringify(userID)};
+    let ipaddress = !{JSON.stringify(ip)};
+    let polldata = !{JSON.stringify(poll)};
+
+    // do this before page loads so donut chart can be populated with values
+    // polldata.answers curerently = [{ option: "Boston Celtics", votes: 10 }, { option: "Golden State Warriors", votes: 12 }, ...]
+    let objArr = polldata.answers;
+    let len = objArr.length;
+    let answers = [];
+    let votes = [];
+
+    for (let i = 0; i < len; i++) {
+      answers.push(objArr[i].option); // ["Boston Celtics", "Golden State Warriors", ... ]
+      votes.push(objArr[i].votes); // [10, 12, ... ]
+    }
+  script(src="/clientChart.js" defer)
+  // script below enables Twitter popup in child window
+  script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
+
+block main
+  main.display
+    div.row
+      div.col-md-5
+        p.bold= poll.title
+        form#answer
+          div.form-group
+            label(for="select") I'd like to vote for ...
+            select.form-control#select
+              option Select
+              each answer, index in poll.answers
+                option(value=index)= answer.option
+              if signedIn
+                option I'd like a custom answer
+            if !signedIn
+              span Or sign in to choose a custom option
+          button.btn.btn-outline-success.insertbefore.width(type="submit") Submit
+        a(target="_blank" href="https://twitter.com/intent/tweet?&text=" + poll.title + "&url=https://materialistic-earthworm.glitch.me/" + poll._id)
+          button.btn.btn-info.width Share on Twitter 
+            i.fab.fa-twitter
+      div.col-md-7
+        canvas#myChart
+
+
+  //  First, whether or not a user is signed in, the poll displays and a dropdown of options appear
+      Whether or not a user is signed in, they can vote on the poll. They can only vote once per poll based on IP address or username
+      The poll data is passed from Node (which retrieves it from mLab via Mongoose) to this file via the "poll" variable
+      JavaScript written on this page parses it, extracts the information, and draws a donut chart using the chart.js library
+
+      If a user is signed in, they have the option to add a custom answer to the poll
+      It is displayed by identifying the option selected from code in the client.js file
+
+      In node, for the /chart route, I send three pug variables: polldata,  ipaddress, and userID
+      These can be accessed in the client.js file (since client.js is listed after the pug variables are declared in the header)
+      I then compare if the IP address or the userID are in the polldata arrays. If so, the vote can't be counted.

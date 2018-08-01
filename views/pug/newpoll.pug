@@ -1,0 +1,32 @@
+extends layout.pug
+
+block extrascript
+  script(src="/clientNewpoll.js")
+
+block navbardetails
+  li.nav-item
+    a.nav-link(href="/") Home
+      span.sr-only (current)
+  li.nav-item
+    a.nav-link(href="/mypolls") My Polls
+  li.nav-item.active
+    a.nav-link(href="/newpoll") New Poll
+  li.nav-item.dropdown
+    a.nav-link.dropdown-toggle#navbarDropdown(href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")= name
+    div.dropdown-menu.text-center(aria-labelledby="navbarDropdown")
+      button.btn.btn-info(type="submit")
+        a(href="/logout") Sign Out
+
+block main
+  div.display
+    header
+      h1 Make a new poll!
+    main
+      form#newpoll
+        div.form-group
+          label(for="title") Title
+          input.form-control#title(type="text" name="title" placeholder="Title")
+        div.form-group
+          label(for="answers") List answers (separated by new line)
+          textarea.form-control#answers(type="text" name="answers" rows="5")
+        button.btn.btn-primary(type="submit") Submit
