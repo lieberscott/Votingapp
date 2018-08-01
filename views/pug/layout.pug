@@ -1,0 +1,55 @@
+html
+  head
+    title Welcome to the Materialistic Earthworm!
+    meta(name="description" content="A voting app thing made with Glitch!")
+    link#favicon(rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon")
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="/style.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
+    // for fontawesome on chart.pug
+    block extralink
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous")
+    // for clientChart.js and clientNewpoll.js
+    block extrascript
+
+  body
+    // navbar with bootstrap: https://getbootstrap.com/docs/4.0/components/navbar/
+    div.container.container-fluid
+      nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        a.navbar-brand(href="/")
+          img(src="https://cdn.glitch.com/06140626-8a16-4a3a-944a-94d30a5db35e%2Fworm-svgrepo-com.svg?1532636828369")
+        block searchinput
+        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+          span.navbar-toggler-icon
+        div.collapse.navbar-collapse#navbarSupportedContent
+          ul.navbar-nav.ml-auto
+            block navbardetails
+              // use of a variable to determine whether to show one of the navbar items
+              // notice how "if" statement is indented under "ul" (if "if" (or any other tag) is not indented, ul tag would be closed)
+              // "li", too, is indented under "if" (or else "if" statement would be closed and would not apply to it)
+              if signedIn
+                li.nav-item
+                  a.nav-link(href="/") Home
+                    span.sr-only (current)
+                li.nav-item
+                  a.nav-link(href="/mypolls") My Polls
+                li.nav-item
+                  a.nav-link(href="/newpoll") New Poll
+                li.nav-item.dropdown
+                  a.nav-link.dropdown-toggle#navbarDropdown(href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")= name
+                  div.dropdown-menu.text-center(aria-labelledby="navbarDropdown")
+                    button.btn.btn-info(type="submit")
+                      a(href="/logout") Sign Out
+              else
+                li.nav-item
+                  a.nav-link(href="/") Home
+                li.nav-item
+                  button.btn.btn-primary
+                    a.sign-in(href="/auth/twitter") Sign in with Twitter
+              
+      block main
+      footer Made with #[a(href="https://glitch.com") Glitch]!

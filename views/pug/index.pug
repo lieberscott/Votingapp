@@ -1,0 +1,47 @@
+extends layout.pug
+
+block extrascript
+  script(src="/client.js")
+  
+block searchinput
+  form.form-inline.my-2.my-lg-0
+    input.form-control.mr-sm-2.ml-sm-2#input(type="search" placeholder="Search" aria-label="Search")
+
+block navbardetails
+  if signedIn
+    li.nav-item.active
+      a.nav-link(href="/") Home
+        span.sr-only (current)
+    li.nav-item
+      a.nav-link(href="/mypolls") My Polls
+    li.nav-item
+      a.nav-link(href="/newpoll") New Poll
+    li.nav-item.dropdown
+      a.nav-link.dropdown-toggle#navbarDropdown(href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")= name
+      div.dropdown-menu.text-center(aria-labelledby="navbarDropdown")
+        button.btn.btn-info(type="submit")
+          a(href="/logout") Sign Out
+  else
+    li.nav-item.active
+      a.nav-link(href="/") Home
+    li.nav-item
+      button.btn.btn-primary
+        a.sign-in(href="/auth/twitter") Sign in with Twitter
+
+block main
+  div.display
+    header
+      h1 #[img(src="https://cdn.glitch.com/06140626-8a16-4a3a-944a-94d30a5db35e%2Fworm-svgrepo-com.svg?1532636828369")] Welcome to the Materialistic Earthworm 
+    main.center
+      p.bold Below are our polls
+      p Select a poll to see the results and vote 
+        if !signedIn
+          span or #[a(href="/auth/twitter") sign in to start a new poll]!
+        else
+          span or #[a(href="/newpoll") start a new poll]!
+      table.table#polltable
+        tbody
+          each val, index in polls
+            tr
+              td.data
+                a(href="/polls/" + val._id)= val.title

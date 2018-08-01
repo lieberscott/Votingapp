@@ -1,0 +1,82 @@
+/* styles */
+/* called by your view template */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+  min-width: 350px;
+}
+
+a, a:hover, a:link, a:visited {
+  text-decoration: none !important;
+}
+
+.btn a {
+  color: white !important;
+}
+
+canvas {
+  height: 400px;
+}
+
+footer {
+  margin-top: 50px;
+  padding-top: 25px;
+  border-top: 1px solid lightgrey;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+}
+
+img {
+  width: 50px;
+}
+
+td a, td a:link, td a:visited {
+  color: darkslategray;
+}
+
+td a:hover {
+  color: black;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.btn-info { /* Log out button */
+  width: 90%;
+}
+
+.display {
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-top: 30px;
+  padding: 50px;
+}
+
+.form-group {
+  width: 80%;
+}
+
+.sign-in {
+  color: inherit;
+}
+
+.twitter-share-button {
+  width: 300px !important;
+}
+
+.width {
+  width: 80%;
+}
+
+#donutchart {
+  display: inline-block;
+}
